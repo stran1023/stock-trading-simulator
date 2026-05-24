@@ -12,13 +12,13 @@ Each phase is committed and pushed to GitHub on completion.
 
 | # | File | Status |
 |---|---|---|
-| 1.1 | `common/response/ApiResponse<T>` | ⬜ |
-| 1.2 | `common/exception/` — domain exceptions | ⬜ |
-| 1.3 | `common/exception/GlobalExceptionHandler` | ⬜ |
-| 1.4 | `common/config/RedisConfig` | ⬜ |
-| 1.5 | `common/config/CorsConfig` | ⬜ |
-| 1.6 | `common/config/OpenApiConfig` | ⬜ |
-| 1.7 | `common/config/SecurityConfig` | ⬜ |
+| 1.1 | `common/response/ApiResponse<T>` | ✅ |
+| 1.2 | `common/exception/` — domain exceptions | ✅ |
+| 1.3 | `common/exception/GlobalExceptionHandler` | ✅ |
+| 1.4 | `common/config/RedisConfig` | ✅ |
+| 1.5 | `common/config/CorsConfig` | ✅ |
+| 1.6 | `common/config/OpenApiConfig` | ✅ |
+| 1.7 | `common/config/SecurityConfig` | ✅ |
 
 ---
 
@@ -135,3 +135,4 @@ Each phase is committed and pushed to GitHub on completion.
 | Phase | Commit message | Date |
 |---|---|---|
 | — | Initial commit | 2026-05-24 |
+| 1 | feat: phase 1 — common foundation | 2026-05-24 |
