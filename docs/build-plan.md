@@ -27,15 +27,15 @@ Each phase is committed and pushed to GitHub on completion.
 
 | # | File | Status |
 |---|---|---|
-| 2.1 | `auth/entity/User` | ⬜ |
-| 2.2 | `auth/entity/RefreshToken` | ⬜ |
-| 2.3 | `auth/repository/UserRepository` | ⬜ |
-| 2.4 | `auth/repository/RefreshTokenRepository` | ⬜ |
-| 2.5 | `auth/security/JwtService` | ⬜ |
-| 2.6 | `auth/security/JwtAuthFilter` | ⬜ |
-| 2.7 | `auth/dto/` — `RegisterRequest`, `LoginRequest`, `RefreshRequest`, `AuthResponse` | ⬜ |
-| 2.8 | `auth/service/AuthService` + impl | ⬜ |
-| 2.9 | `auth/controller/AuthController` | ⬜ |
+| 2.1 | `auth/entity/User` | ✅ |
+| 2.2 | `auth/entity/RefreshToken` | ✅ |
+| 2.3 | `auth/repository/UserRepository` | ✅ |
+| 2.4 | `auth/repository/RefreshTokenRepository` | ✅ |
+| 2.5 | `auth/security/JwtService` | ✅ |
+| 2.6 | `auth/security/JwtAuthFilter` | ✅ |
+| 2.7 | `auth/dto/` — `RegisterRequest`, `LoginRequest`, `RefreshRequest`, `AuthResponse` | ✅ |
+| 2.8 | `auth/service/AuthService` + impl | ✅ |
+| 2.9 | `auth/controller/AuthController` | ✅ |
 
 ---
 
@@ -136,3 +136,4 @@ Each phase is committed and pushed to GitHub on completion.
 |---|---|---|
 | — | Initial commit | 2026-05-24 |
 | 1 | feat: phase 1 — common foundation | 2026-05-24 |
+| 2 | feat: phase 2 — auth module | 2026-05-25 |
