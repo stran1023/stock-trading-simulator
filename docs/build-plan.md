@@ -26,7 +26,7 @@ These hooks are left open by earlier phases and must be closed by later ones.
 
 | Hook | Opened | Closed | What to do when closing |
 |---|---|---|---|
-| `PriceScheduler.setWatchlistedSymbols()` | Phase 3 | **Phase 6** | Call `watchlistRepository.findAllDistinctSymbols()` and pass list to scheduler |
+| `PriceScheduler.setWatchlistedSymbols()` | Phase 3 | ~~**Phase 6**~~ ✅ | `PriceScheduler` now injects `WatchlistRepository` directly |
 | Broadcast prices → `/topic/prices` | Phase 3 (TODO comment) | **Phase 8** | Inject `PriceBroadcaster` into `PriceScheduler.refreshPrices()` |
 | Leaderboard update after trade | Phase 5 (TODO comment) | **Phase 7** | Inject `LeaderboardService.updateRoi()` into `TradeServiceImpl` after every BUY/SELL |
 | Broadcast portfolio after trade | Phase 5 (TODO comment) | **Phase 8** | Inject `PortfolioBroadcaster` into `TradeServiceImpl` |
@@ -224,18 +224,18 @@ curl -X POST http://localhost:8080/api/trade/buy `
 
 ---
 
-## Phase 6 — Watchlist Module
+## Phase 6 — Watchlist Module ✅
 > Per-user symbol watchlist; symbols feed the price scheduler.
 
 | # | File | Status |
 |---|---|---|
-| 6.1 | `watchlist/entity/Watchlist` | ⬜ |
-| 6.2 | `watchlist/repository/WatchlistRepository` | ⬜ |
-| 6.3 | `watchlist/service/WatchlistService` + impl | ⬜ |
-| 6.4 | `watchlist/controller/WatchlistController` | ⬜ |
+| 6.1 | `watchlist/entity/Watchlist` | ✅ |
+| 6.2 | `watchlist/repository/WatchlistRepository` | ✅ |
+| 6.3 | `watchlist/service/WatchlistService` + impl | ✅ |
+| 6.4 | `watchlist/controller/WatchlistController` | ✅ |
 
-**Cross-phase wiring to close:**
-- Wire `WatchlistRepository.findAllDistinctSymbols()` into `PriceScheduler.setWatchlistedSymbols()` on startup and after watchlist changes.
+**Cross-phase wiring closed ✅:**
+- `PriceScheduler` now injects `WatchlistRepository` directly and calls `findAllDistinctSymbols()` each tick.
 
 **Verification**
 ```powershell
@@ -357,3 +357,4 @@ mvn test -Dtest="*IntegrationTest"
 | 3 | feat: phase 3 — market module | 2026-05-25 |
 | 4 | feat: phase 4 — portfolio module | 2026-05-25 |
 | 5 | feat: phase 5 — trading module | 2026-05-25 |
+| 6 | feat: phase 6 — watchlist module | 2026-05-25 |

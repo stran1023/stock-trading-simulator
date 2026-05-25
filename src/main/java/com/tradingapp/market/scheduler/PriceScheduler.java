@@ -1,7 +1,8 @@
 package com.tradingapp.market.scheduler;
 
-import com.tradingapp.market.service.MarketService;
 import com.tradingapp.market.repository.StockPriceRepository;
+import com.tradingapp.market.service.MarketService;
+import com.tradingapp.watchlist.repository.WatchlistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,27 +16,23 @@ public class PriceScheduler {
     private static final Logger log = LoggerFactory.getLogger(PriceScheduler.class);
 
     private final MarketService marketService;
+    private final WatchlistRepository watchlistRepository;
     private final StockPriceRepository stockPriceRepository;
 
-    public PriceScheduler(MarketService marketService, StockPriceRepository stockPriceRepository) {
+    public PriceScheduler(MarketService marketService,
+                          WatchlistRepository watchlistRepository,
+                          StockPriceRepository stockPriceRepository) {
         this.marketService = marketService;
+        this.watchlistRepository = watchlistRepository;
         this.stockPriceRepository = stockPriceRepository;
-    }
-
-    // Symbols to refresh are set externally by WatchlistSchedulerBridge (wired in Phase 6).
-    // Until then, falls back to all symbols already persisted in stock_prices.
-    private volatile List<String> watchlistedSymbols = List.of();
-
-    public void setWatchlistedSymbols(List<String> symbols) {
-        this.watchlistedSymbols = symbols;
     }
 
     @Scheduled(fixedDelayString = "${market.price.refresh-interval-ms}")
     public void refreshPrices() {
-        List<String> symbols = watchlistedSymbols.isEmpty()
-                ? stockPriceRepository.findAllSymbols()
-                : watchlistedSymbols;
-
+        List<String> symbols = watchlistRepository.findAllDistinctSymbols();
+        if (symbols.isEmpty()) {
+            symbols = stockPriceRepository.findAllSymbols();
+        }
         if (symbols.isEmpty()) return;
 
         for (String symbol : symbols) {
@@ -46,6 +43,6 @@ public class PriceScheduler {
             }
         }
 
-        // Phase 8: PriceBroadcaster will be wired here to push ticks to /topic/prices
+        // TODO Phase 8: priceBroadcaster.broadcast() — push ticks to /topic/prices
     }
 }
