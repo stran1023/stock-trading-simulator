@@ -44,14 +44,14 @@ Each phase is committed and pushed to GitHub on completion.
 
 | # | File | Status |
 |---|---|---|
-| 3.1 | `market/entity/StockPrice` | ⬜ |
-| 3.2 | `market/repository/StockPriceRepository` | ⬜ |
-| 3.3 | `market/client/FinnhubClient` | ⬜ |
-| 3.4 | `market/cache/PriceCache` | ⬜ |
-| 3.5 | `market/scheduler/PriceScheduler` | ⬜ |
-| 3.6 | `market/dto/` — `PriceResponse`, `CandleResponse` | ⬜ |
-| 3.7 | `market/service/MarketService` + impl | ⬜ |
-| 3.8 | `market/controller/MarketController` | ⬜ |
+| 3.1 | `market/entity/StockPrice` | ✅ |
+| 3.2 | `market/repository/StockPriceRepository` | ✅ |
+| 3.3 | `market/client/FinnhubClient` | ✅ |
+| 3.4 | `market/cache/PriceCache` | ✅ |
+| 3.5 | `market/scheduler/PriceScheduler` | ✅ |
+| 3.6 | `market/dto/` — `PriceResponse`, `CandleResponse` | ✅ |
+| 3.7 | `market/service/MarketService` + impl | ✅ |
+| 3.8 | `market/controller/MarketController` | ✅ |
 
 ---
 
@@ -137,3 +137,4 @@ Each phase is committed and pushed to GitHub on completion.
 | — | Initial commit | 2026-05-24 |
 | 1 | feat: phase 1 — common foundation | 2026-05-24 |
 | 2 | feat: phase 2 — auth module | 2026-05-25 |
+| 3 | feat: phase 3 — market module | 2026-05-25 |
