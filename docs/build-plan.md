@@ -323,17 +323,19 @@ curl http://localhost:8080/api/leaderboard
 
 ---
 
-## Phase 9 — Tests
-> Unit tests (Mockito) and integration tests (Testcontainers).
+## Phase 9 — Tests ✅
+> Unit tests (Mockito) and integration tests (local PostgreSQL + Redis stack).
 
 | # | Coverage | Status |
 |---|---|---|
-| 9.1 | `AuthService` unit tests | ⬜ |
-| 9.2 | `TradeService` unit tests | ⬜ |
-| 9.3 | `PortfolioService` unit tests | ⬜ |
-| 9.4 | `MarketService` unit tests | ⬜ |
-| 9.5 | Auth flow integration test (register → login → refresh → logout) | ⬜ |
-| 9.6 | Trade flow integration test (buy → portfolio → sell) | ⬜ |
+| 9.1 | `AuthService` unit tests | ✅ |
+| 9.2 | `TradeService` unit tests | ✅ |
+| 9.3 | `PortfolioService` unit tests | ✅ |
+| 9.4 | `MarketService` unit tests | ✅ |
+| 9.5 | Auth flow integration test (register → login → refresh → logout) | ✅ |
+| 9.6 | Trade flow integration test (buy → portfolio → sell) | ✅ |
+
+**Note:** Integration tests connect to the local `docker-compose` PostgreSQL + Redis (requires `docker-compose up -d db redis`). UUID-based unique identifiers ensure tests are idempotent across runs.
 
 **Verification**
 ```powershell
@@ -360,3 +362,4 @@ mvn test -Dtest="*IntegrationTest"
 | 6 | feat: phase 6 — watchlist module | 2026-05-25 |
 | 7 | feat: phase 7 — leaderboard module | 2026-05-25 |
 | 8 | feat: phase 8 — websocket module | 2026-05-25 |
+| 9 | feat: phase 9 — tests | 2026-05-26 |
