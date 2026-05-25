@@ -111,3 +111,14 @@ See [`docs/workflow.md`](docs/workflow.md) for branching, PR process, and Finnhu
 Swagger UI: `http://localhost:8080/swagger-ui.html`  
 Full contract: [`docs/api.md`](docs/api.md)  
 DB schema: [`docs/database.md`](docs/database.md)
+
+## Build Tracking Rule (MANDATORY)
+
+After completing every phase, before moving to the next:
+1. Mark all phase items ✅ in [`docs/build-plan.md`](docs/build-plan.md)
+2. Run `mvn compile` — must be zero errors
+3. Run the **Verification** curl commands for that phase against the live app
+4. Add a row to the Commit Log table in `docs/build-plan.md`
+5. `git add` + `git commit` + `git push origin master`
+
+Also check the **Cross-Phase Wiring** table in `docs/build-plan.md` — each phase has hooks that must be closed by a later phase. Close them when that phase arrives.
