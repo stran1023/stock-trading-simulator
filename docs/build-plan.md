@@ -170,14 +170,14 @@ curl http://localhost:8080/api/portfolio/history `
 
 ---
 
-## Phase 5 — Trading Module
+## Phase 5 — Trading Module ✅
 > Transactional BUY / SELL engine with balance and holding validation.
 
 | # | File | Status |
 |---|---|---|
-| 5.1 | `trading/dto/` — `TradeRequest`, `TradeResponse` | ⬜ |
-| 5.2 | `trading/service/TradeService` + impl | ⬜ |
-| 5.3 | `trading/controller/TradeController` | ⬜ |
+| 5.1 | `trading/dto/` — `TradeRequest`, `TradeResponse` | ✅ |
+| 5.2 | `trading/service/TradeService` + impl | ✅ |
+| 5.3 | `trading/controller/TradeController` | ✅ |
 
 **Open hooks to add TODO comments for:**
 - `LeaderboardService.updateRoi()` call (closed in Phase 7)
@@ -356,3 +356,4 @@ mvn test -Dtest="*IntegrationTest"
 | 2 | feat: phase 2 — auth module | 2026-05-25 |
 | 3 | feat: phase 3 — market module | 2026-05-25 |
 | 4 | feat: phase 4 — portfolio module | 2026-05-25 |
+| 5 | feat: phase 5 — trading module | 2026-05-25 |
