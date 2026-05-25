@@ -12,6 +12,7 @@ import com.tradingapp.portfolio.repository.HoldingRepository;
 import com.tradingapp.portfolio.repository.TransactionRepository;
 import com.tradingapp.trading.dto.TradeRequest;
 import com.tradingapp.trading.dto.TradeResponse;
+import com.tradingapp.leaderboard.service.LeaderboardService;
 import com.tradingapp.trading.service.TradeService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +28,18 @@ public class TradeServiceImpl implements TradeService {
     private final HoldingRepository holdingRepository;
     private final TransactionRepository transactionRepository;
     private final MarketService marketService;
+    private final LeaderboardService leaderboardService;
 
     public TradeServiceImpl(UserRepository userRepository,
                             HoldingRepository holdingRepository,
                             TransactionRepository transactionRepository,
-                            MarketService marketService) {
+                            MarketService marketService,
+                            LeaderboardService leaderboardService) {
         this.userRepository = userRepository;
         this.holdingRepository = holdingRepository;
         this.transactionRepository = transactionRepository;
         this.marketService = marketService;
+        this.leaderboardService = leaderboardService;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class TradeServiceImpl implements TradeService {
 
         appendTransaction(userId, symbol, "BUY", quantity, price);
 
-        // TODO Phase 7: leaderboardService.updateRoi(userId)
+        leaderboardService.updateRoi(userId);
         // TODO Phase 8: portfolioBroadcaster.broadcast(userId)
         // TODO Phase 8: tradeBroadcaster.broadcast(userId, response)
 
@@ -115,7 +119,7 @@ public class TradeServiceImpl implements TradeService {
 
         appendTransaction(userId, symbol, "SELL", quantity, price);
 
-        // TODO Phase 7: leaderboardService.updateRoi(userId)
+        leaderboardService.updateRoi(userId);
         // TODO Phase 8: portfolioBroadcaster.broadcast(userId)
         // TODO Phase 8: tradeBroadcaster.broadcast(userId, response)
 

@@ -28,7 +28,7 @@ These hooks are left open by earlier phases and must be closed by later ones.
 |---|---|---|---|
 | `PriceScheduler.setWatchlistedSymbols()` | Phase 3 | ~~**Phase 6**~~ ✅ | `PriceScheduler` now injects `WatchlistRepository` directly |
 | Broadcast prices → `/topic/prices` | Phase 3 (TODO comment) | **Phase 8** | Inject `PriceBroadcaster` into `PriceScheduler.refreshPrices()` |
-| Leaderboard update after trade | Phase 5 (TODO comment) | **Phase 7** | Inject `LeaderboardService.updateRoi()` into `TradeServiceImpl` after every BUY/SELL |
+| Leaderboard update after trade | Phase 5 (TODO comment) | ~~**Phase 7**~~ ✅ | `TradeServiceImpl` calls `leaderboardService.updateRoi(userId)` after every trade |
 | Broadcast portfolio after trade | Phase 5 (TODO comment) | **Phase 8** | Inject `PortfolioBroadcaster` into `TradeServiceImpl` |
 | Broadcast trade confirmation | Phase 5 (TODO comment) | **Phase 8** | Inject `TradeBroadcaster` into `TradeServiceImpl` |
 
@@ -263,17 +263,17 @@ curl -X DELETE http://localhost:8080/api/watchlist/TSLA `
 
 ---
 
-## Phase 7 — Leaderboard Module
+## Phase 7 — Leaderboard Module ✅
 > Global ROI ranking backed by Redis sorted set; updated on every trade.
 
 | # | File | Status |
 |---|---|---|
-| 7.1 | `leaderboard/dto/LeaderboardEntry` | ⬜ |
-| 7.2 | `leaderboard/service/LeaderboardService` + impl | ⬜ |
-| 7.3 | `leaderboard/controller/LeaderboardController` | ⬜ |
+| 7.1 | `leaderboard/dto/LeaderboardEntry` | ✅ |
+| 7.2 | `leaderboard/service/LeaderboardService` + impl | ✅ |
+| 7.3 | `leaderboard/controller/LeaderboardController` | ✅ |
 
-**Cross-phase wiring to close:**
-- Inject `LeaderboardService.updateRoi()` into `TradeServiceImpl` after every BUY/SELL commit.
+**Cross-phase wiring closed ✅:**
+- `TradeServiceImpl` now calls `leaderboardService.updateRoi(userId)` after every BUY and SELL.
 
 **Verification**
 ```powershell
@@ -358,3 +358,4 @@ mvn test -Dtest="*IntegrationTest"
 | 4 | feat: phase 4 — portfolio module | 2026-05-25 |
 | 5 | feat: phase 5 — trading module | 2026-05-25 |
 | 6 | feat: phase 6 — watchlist module | 2026-05-25 |
+| 7 | feat: phase 7 — leaderboard module | 2026-05-25 |
