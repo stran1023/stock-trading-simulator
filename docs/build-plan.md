@@ -140,18 +140,18 @@ curl http://localhost:8080/api/market/price/INVALIDSYMBOL999
 
 ---
 
-## Phase 4 — Portfolio Module
+## Phase 4 — Portfolio Module ✅
 > Holdings, transaction ledger, live P&L computation.
 
 | # | File | Status |
 |---|---|---|
-| 4.1 | `portfolio/entity/Holding` | ⬜ |
-| 4.2 | `portfolio/entity/Transaction` | ⬜ |
-| 4.3 | `portfolio/repository/HoldingRepository` | ⬜ |
-| 4.4 | `portfolio/repository/TransactionRepository` | ⬜ |
-| 4.5 | `portfolio/dto/` — `PortfolioResponse`, `HoldingDto`, `TransactionDto` | ⬜ |
-| 4.6 | `portfolio/service/PortfolioService` + impl | ⬜ |
-| 4.7 | `portfolio/controller/PortfolioController` | ⬜ |
+| 4.1 | `portfolio/entity/Holding` | ✅ |
+| 4.2 | `portfolio/entity/Transaction` | ✅ |
+| 4.3 | `portfolio/repository/HoldingRepository` | ✅ |
+| 4.4 | `portfolio/repository/TransactionRepository` | ✅ |
+| 4.5 | `portfolio/dto/` — `PortfolioResponse`, `HoldingDto`, `TransactionDto` | ✅ |
+| 4.6 | `portfolio/service/PortfolioService` + impl | ✅ |
+| 4.7 | `portfolio/controller/PortfolioController` | ✅ |
 
 **Verification**
 ```powershell
@@ -355,3 +355,4 @@ mvn test -Dtest="*IntegrationTest"
 | 1 | feat: phase 1 — common foundation | 2026-05-24 |
 | 2 | feat: phase 2 — auth module | 2026-05-25 |
 | 3 | feat: phase 3 — market module | 2026-05-25 |
+| 4 | feat: phase 4 — portfolio module | 2026-05-25 |
