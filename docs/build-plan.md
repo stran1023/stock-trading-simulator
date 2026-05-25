@@ -27,10 +27,10 @@ These hooks are left open by earlier phases and must be closed by later ones.
 | Hook | Opened | Closed | What to do when closing |
 |---|---|---|---|
 | `PriceScheduler.setWatchlistedSymbols()` | Phase 3 | ~~**Phase 6**~~ ✅ | `PriceScheduler` now injects `WatchlistRepository` directly |
-| Broadcast prices → `/topic/prices` | Phase 3 (TODO comment) | **Phase 8** | Inject `PriceBroadcaster` into `PriceScheduler.refreshPrices()` |
+| Broadcast prices → `/topic/prices` | Phase 3 (TODO comment) | ~~**Phase 8**~~ ✅ | `PriceScheduler` injects `PriceBroadcaster`, calls `broadcast(symbol, price)` per tick |
 | Leaderboard update after trade | Phase 5 (TODO comment) | ~~**Phase 7**~~ ✅ | `TradeServiceImpl` calls `leaderboardService.updateRoi(userId)` after every trade |
-| Broadcast portfolio after trade | Phase 5 (TODO comment) | **Phase 8** | Inject `PortfolioBroadcaster` into `TradeServiceImpl` |
-| Broadcast trade confirmation | Phase 5 (TODO comment) | **Phase 8** | Inject `TradeBroadcaster` into `TradeServiceImpl` |
+| Broadcast portfolio after trade | Phase 5 (TODO comment) | ~~**Phase 8**~~ ✅ | `TradeServiceImpl` injects `PortfolioBroadcaster`, calls `broadcast(userId)` after BUY/SELL |
+| Broadcast trade confirmation | Phase 5 (TODO comment) | ~~**Phase 8**~~ ✅ | `TradeServiceImpl` injects `TradeBroadcaster`, calls `broadcast(userId, response)` after BUY/SELL |
 
 ---
 
@@ -292,19 +292,19 @@ curl http://localhost:8080/api/leaderboard
 
 ---
 
-## Phase 8 — WebSocket Module
+## Phase 8 — WebSocket Module ✅
 > STOMP broker config and broadcasters for prices, portfolio, and trades.
 
 | # | File | Status |
 |---|---|---|
-| 8.1 | `websocket/config/WebSocketConfig` | ⬜ |
-| 8.2 | `websocket/broadcaster/PriceBroadcaster` | ⬜ |
-| 8.3 | `websocket/broadcaster/PortfolioBroadcaster` | ⬜ |
-| 8.4 | `websocket/broadcaster/TradeBroadcaster` | ⬜ |
+| 8.1 | `websocket/config/WebSocketConfig` | ✅ |
+| 8.2 | `websocket/broadcaster/PriceBroadcaster` | ✅ |
+| 8.3 | `websocket/broadcaster/PortfolioBroadcaster` | ✅ |
+| 8.4 | `websocket/broadcaster/TradeBroadcaster` | ✅ |
 
-**Cross-phase wiring to close:**
-- Inject `PriceBroadcaster` into `PriceScheduler.refreshPrices()`.
-- Inject `PortfolioBroadcaster` + `TradeBroadcaster` into `TradeServiceImpl`.
+**Cross-phase wiring closed ✅:**
+- `PriceBroadcaster` injected into `PriceScheduler.refreshPrices()` — broadcasts each price tick to `/topic/prices`.
+- `PortfolioBroadcaster` + `TradeBroadcaster` injected into `TradeServiceImpl` — fires after every BUY and SELL.
 
 **Verification**
 ```
@@ -359,3 +359,4 @@ mvn test -Dtest="*IntegrationTest"
 | 5 | feat: phase 5 — trading module | 2026-05-25 |
 | 6 | feat: phase 6 — watchlist module | 2026-05-25 |
 | 7 | feat: phase 7 — leaderboard module | 2026-05-25 |
+| 8 | feat: phase 8 — websocket module | 2026-05-25 |

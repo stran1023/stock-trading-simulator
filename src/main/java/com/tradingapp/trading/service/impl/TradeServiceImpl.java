@@ -14,6 +14,8 @@ import com.tradingapp.trading.dto.TradeRequest;
 import com.tradingapp.trading.dto.TradeResponse;
 import com.tradingapp.leaderboard.service.LeaderboardService;
 import com.tradingapp.trading.service.TradeService;
+import com.tradingapp.websocket.broadcaster.PortfolioBroadcaster;
+import com.tradingapp.websocket.broadcaster.TradeBroadcaster;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,17 +31,23 @@ public class TradeServiceImpl implements TradeService {
     private final TransactionRepository transactionRepository;
     private final MarketService marketService;
     private final LeaderboardService leaderboardService;
+    private final PortfolioBroadcaster portfolioBroadcaster;
+    private final TradeBroadcaster tradeBroadcaster;
 
     public TradeServiceImpl(UserRepository userRepository,
                             HoldingRepository holdingRepository,
                             TransactionRepository transactionRepository,
                             MarketService marketService,
-                            LeaderboardService leaderboardService) {
+                            LeaderboardService leaderboardService,
+                            PortfolioBroadcaster portfolioBroadcaster,
+                            TradeBroadcaster tradeBroadcaster) {
         this.userRepository = userRepository;
         this.holdingRepository = holdingRepository;
         this.transactionRepository = transactionRepository;
         this.marketService = marketService;
         this.leaderboardService = leaderboardService;
+        this.portfolioBroadcaster = portfolioBroadcaster;
+        this.tradeBroadcaster = tradeBroadcaster;
     }
 
     @Override
@@ -82,10 +90,11 @@ public class TradeServiceImpl implements TradeService {
         appendTransaction(userId, symbol, "BUY", quantity, price);
 
         leaderboardService.updateRoi(userId);
-        // TODO Phase 8: portfolioBroadcaster.broadcast(userId)
-        // TODO Phase 8: tradeBroadcaster.broadcast(userId, response)
+        TradeResponse response = new TradeResponse(symbol, quantity, price, cost, user.getBalance());
+        portfolioBroadcaster.broadcast(userId);
+        tradeBroadcaster.broadcast(userId, response);
 
-        return new TradeResponse(symbol, quantity, price, cost, user.getBalance());
+        return response;
     }
 
     @Override
@@ -120,10 +129,11 @@ public class TradeServiceImpl implements TradeService {
         appendTransaction(userId, symbol, "SELL", quantity, price);
 
         leaderboardService.updateRoi(userId);
-        // TODO Phase 8: portfolioBroadcaster.broadcast(userId)
-        // TODO Phase 8: tradeBroadcaster.broadcast(userId, response)
+        TradeResponse response = new TradeResponse(symbol, quantity, price, proceeds, user.getBalance());
+        portfolioBroadcaster.broadcast(userId);
+        tradeBroadcaster.broadcast(userId, response);
 
-        return new TradeResponse(symbol, quantity, price, proceeds, user.getBalance());
+        return response;
     }
 
     private User loadUser(Long userId) {
